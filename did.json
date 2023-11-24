@@ -1,0 +1,44 @@
+{
+  "@context": [
+    "https://www.w3.org/ns/did/v1",
+    "https://w3id.org/security/suites/ed25519-2020/v1"
+  ],
+  "id": "did:hid:testnet:z6MknMtETrAPHcme1NpXLYovXmC8FVNn1wtge6xqaPFpV4pY",
+  "controller": [
+    "did:hid:testnet:z6MknMtETrAPHcme1NpXLYovXmC8FVNn1wtge6xqaPFpV4pY"
+  ],
+  "alsoKnownAs": [
+    "did:hid:testnet:z6MknMtETrAPHcme1NpXLYovXmC8FVNn1wtge6xqaPFpV4pY"
+  ],
+  "verificationMethod": [
+    {
+      "id": "did:hid:testnet:z6MknMtETrAPHcme1NpXLYovXmC8FVNn1wtge6xqaPFpV4pY#key-1",
+      "type": "Ed25519VerificationKey2020",
+      "controller": "did:hid:testnet:z6MknMtETrAPHcme1NpXLYovXmC8FVNn1wtge6xqaPFpV4pY",
+      "publicKeyMultibase": "z6MknMtETrAPHcme1NpXLYovXmC8FVNn1wtge6xqaPFpV4pY"
+    }
+  ],
+  "authentication": [
+    "did:hid:testnet:z6MknMtETrAPHcme1NpXLYovXmC8FVNn1wtge6xqaPFpV4pY#key-1"
+  ],
+  "assertionMethod": [
+    "did:hid:testnet:z6MknMtETrAPHcme1NpXLYovXmC8FVNn1wtge6xqaPFpV4pY#key-1"
+  ],
+  "keyAgreement": [],
+  "capabilityInvocation": [
+    "did:hid:testnet:z6MknMtETrAPHcme1NpXLYovXmC8FVNn1wtge6xqaPFpV4pY#key-1"
+  ],
+  "capabilityDelegation": [
+    "did:hid:testnet:z6MknMtETrAPHcme1NpXLYovXmC8FVNn1wtge6xqaPFpV4pY#key-1"
+  ],
+  "service": [],
+  "proof": {
+    "type": "Ed25519Signature2020",
+    "created": "2023-11-20T09:45:54Z",
+    "verificationMethod": "did:hid:testnet:z6MknMtETrAPHcme1NpXLYovXmC8FVNn1wtge6xqaPFpV4pY#key-1",
+    "proofPurpose": "authentication",
+    "challenge": "abc",
+    "domain": "www.test.org",
+    "proofValue": "z4qQV3aQ359Myb9wVZYdMcVuPRN6gF7t7MBQziEZDVLBptJBDuyqzLQHeLpx4hWP3jur35G6c6x9Rro5EZdzRDKVb"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "name": "sdk-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@cfworker/json-schema": "file:../cfworker/json-schema",
+    "@cosmjs/proto-signing": "^0.27.0",
+    "@digitalbazaar/ed25519-signature-2020": "^3.0.0",
+    "@digitalbazaar/ed25519-verification-key-2020": "^3.3.0",
+    "@hypersign-protocol/babyjubjub2021": "github:hypersign-protocol/BabyJubJubKey2021",
+    "base58-universal": "^2.0.0",
+    "bip39": "^3.1.0",
+    "cfworker": "file:../cfworker",
+    "ethereumeip712signature2021suite": "github:hypersign-protocol/EthereumEip712Signature2021Suite.git",
+    "hs-ssi-sdk": "file:../hid-ssi-js-sdk",
+    "jcs": "github:hypersign-protocol/JCS",
+    "json-schema-library": "^9.1.2",
+    "jsonld": "^4.0.1"
+  }
+}
