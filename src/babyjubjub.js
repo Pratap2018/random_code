@@ -4,6 +4,8 @@ import { createWallet, hidNodeEp, mnemonic, writeFileSync, mnemonic1 } from "./u
 import { Bip39 } from "@cosmjs/crypto";
 import Utils from "./converter.js";
 import jsonld from 'jsonld'
+import jsonSig from 'jsonld-signatures'
+// import { BabyJubJubSignatureProof2021 } from '@hypersign-protocol/babyjubjubsignature2021'
 const offlineSigner = await createWallet(mnemonic);
 
 const params = {
@@ -76,7 +78,7 @@ const vc = await hsSdk.vc.bjjVC.generate({
   issuerDid: did.id,
   expirationDate: '2027-11-24T07:58:12Z',
   fields: {
-    '@explicit':true,
+    '@explicit': true,
     name: 'Pratap Mridha'
   }
 })
@@ -91,15 +93,15 @@ const signCredentials = await hsSdk.vc.bjjVC.issue({
 
 vc.id = 'vc:hid:testnet:z6Mkg2hfsCooPbB28KoKa59DGQh5ggeXghMZ9PXzMLoVdgVX'
 
-console.log(JSON.stringify(signCredentials.signedCredential,null,2));
+console.log(JSON.stringify(signCredentials.signedCredential, null, 2));
 
-const revelDocument={
-  "type": [ "VerifiableCredential", "TestSchema" ],
-  "expirationDate":{},
+const revelDocument = {
+  "type": ["VerifiableCredential", "TestSchema"],
+  "expirationDate": {},
   "issuanceDate": {},
   "issuer": {},
   "credentialSubject": {
-    "@explicit":true,
+    "@explicit": true,
     "id": {},
   },
 
@@ -110,36 +112,69 @@ const revelDocument={
 // console.log(await jsonld.frame(signCredentials.signedCredential,revelDocument));
 
 // console.log(JSON.stringify(revelDocument));
-const vp = await hsSdk.vp.bjjVp.generateSD({
-  verifiableCredential: signCredentials.signedCredential,
-  suite:await BabyJubJubKeys2021.fromKeys({
-    publicKeyMultibase:kp.publicKeyMultibase
-  }),
-  frame:revelDocument
-})
-console.log(vp);
+// const vp = await hsSdk.vp.bjjVp.generateSD({
+//   verifiableCredential: signCredentials.signedCredential,
+//   suite: await BabyJubJubKeys2021.fromKeys({
+//     publicKeyMultibase: kp.publicKeyMultibase
+//   }),
+//   frame: revelDocument
+// })
 
-// console.log(JSON.stringify(vp, null, 2));
+const sd = await hsSdk.vc.bjjVC.generateSeletiveDisclosure({
+  verifiableCredential: signCredentials.signedCredential,
+  issuerDid: did.id,
+  verificationMethodId: did.assertionMethod[0],
+  frame: revelDocument,
+
+})
+
+const vp = await hsSdk.vp.generate({
+  verifiableCredentials: [sd],
+  holderDid: holderDid.id
+})
+
+// console.log(vp.verifiableCredential[0]);
+// const verify = await jsonSig.verify(vp.verifiableCredential[0], {
+//   suite: new BabyJubJubSignatureProof2021({
+//     key: await BabyJubJubKeys2021.fromKeys({
+//       publicKeyMultibase: kp.publicKeyMultibase
+//     })
+
+//   }),
+//   purpose:new jsonSig.purposes.AssertionProofPurpose({
+//     controller:{
+//       '@context': ['https://www.w3.org/ns/did/v1'],
+//       id:vp.verifiableCredential[0].proof.verificationMethod,
+//       assertionMethod:[vp.verifiableCredential[0].proof.verificationMethod]
+
+//     }
+//   })
+// })
+
+// console.log(verify);
+
+
+console.log(JSON.stringify(vp, null, 2));
 const signedVp = await hsSdk.vp.bjjVp.sign({
   presentation: vp, holderDid: holderDid.id, verificationMethodId: holderDid.authentication[0],
   privateKeyMultibase: holder_kp.privateKeyMultibase,
   challenge: 'abc',
-  domain:'www.xyz.com',
+  domain: 'www.xyz.com',
 
 })
 
 console.log(signedVp);
-// 
+// // 
 
-const verified=await hsSdk.vp.bjjVp.verify({
-  signedPresentation:signedVp,challenge:'abc',
-  domain:'www.xyz.com',
-  issuerDid:did.id,
-  holderDid:holderDid.id,
-  issuerVerificationMethodId:did.assertionMethod[0],
-  holderVerificationMethodId:holderDid.authentication[0]
+const verified = await hsSdk.vp.bjjVp.verify({
+  signedPresentation: signedVp, challenge: 'abc',
+  domain: 'www.xyz.com',
+  issuerDid: did.id,
+  holderDid: holderDid.id,
+  issuerVerificationMethodId: did.assertionMethod[0],
+  holderVerificationMethodId: holderDid.authentication[0]
 })
-console.log(verified);
+console.log(JSON.stringify(verified, null, 2));
 // const resolvedStatus= await hsSdk.vc.bjjVC.resolveCredentialStatus({
 //   credentialId:'vc:hid:testnet:z6MkemchiJCEkvkprhuki4ikYG41ZJF9vnsMSgKBkLDHKa1z'
 // })
